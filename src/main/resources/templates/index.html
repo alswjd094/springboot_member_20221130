@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
-
+<a href="/member/save" class="btn btn-primary">회원가입</a>
+<a href="/member/login" class="btn btn-primary">로그인</a>
+<a href="/member/" class="btn btn-primary">목록출력</a>
 </body>
 </html>

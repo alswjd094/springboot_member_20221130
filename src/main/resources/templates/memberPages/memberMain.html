@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+    로그인 이메일: <p th:text="${session.loginEmail}"></p>
+    <!-- 로그인 이메일 값이 있냐, 없냐-->
+    <div th:if="${session.loginEmail}">
+      <div th:if="${session.loginEmail.toString().equals('admin')}">
+          <a href="/member/">관리자모드</a>
+      </div>
+        <a href="/member/update">내 정보 수정</a>
+      <a href="/member/logout">로그아웃</a>
+    </div>
+    <div th:unless="${session.loginEmail}">
+        <a href="/member/login">로그인</a>
+    </div>
+</body>
+</html>
