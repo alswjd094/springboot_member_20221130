@@ -3,6 +3,8 @@ package com.example.member.controller;
 import com.example.member.dto.MemberDTO;
 import com.example.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -80,11 +82,21 @@ public class MemberController {
     }
 
     @PostMapping("/member/dup-check")
-    public @ResponseBody String emailDuplicateCheck(@RequestParam("inputEmail") String memberEmail){
+//    public @ResponseBody String emailDuplicateCheck(@RequestParam("inputEmail") String memberEmail){
+    public ResponseEntity emailDuplicateCheck(@RequestParam("inputEmail") String memberEmail){
+          //body뿐만 아니라 headers 정보도 같이 보내줌
         System.out.println("memberEmail = " + memberEmail);
         String inputEmailResult = memberService.emailDuplicateCheck(memberEmail);
-        return inputEmailResult;
-    }
+//        return inputEmailResult;
+        if(inputEmailResult != null) {
+            return new ResponseEntity<>("사용할 수 있는 이메일입니다.", HttpStatus.OK);
+                                                         //HttpStatus: 오류코드, 에러 핸들링 방식, OK: 200
+        }else {
+            return new ResponseEntity<>("이미 사용중인 이메일입니다.",HttpStatus.CONFLICT);
+                                                  //409오류
+        }
+        }
+
 
     
 }
