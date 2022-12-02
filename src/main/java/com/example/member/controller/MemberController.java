@@ -79,5 +79,12 @@ public class MemberController {
         return "redirect:/member/";
     }
 
+    @PostMapping("/member/dup-check")
+    public @ResponseBody String emailDuplicateCheck(@RequestParam("inputEmail") String memberEmail){
+        System.out.println("memberEmail = " + memberEmail);
+        String inputEmailResult = memberService.emailDuplicateCheck(memberEmail);
+        return inputEmailResult;
+    }
+
     
 }
