@@ -4,21 +4,55 @@
     <meta charset="UTF-8">
     <title>update</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div>
     <form action="/member/update" method="post" name="updateForm">
-      id:<input type="text" name="id" th:value="${member.id}" class="form-control" readonly>
-      이메일:<input type="text" name="memberEmail" th:value="${member.memberEmail}"  class="form-control" readonly>
-      비밀번호: <input type="password" name="memberPassword"  id="memberPassword" th:value="${member.memberPassword}">
-      이름:  <input type="text" name="memberName" th:value="${member.memberName}" class="form-control">
-      나이:  <input type="text" name="memberAge" th:value="${member.memberAge}" class="form-control">
-      전화번호:  <input type="text" name="memberMobile" th:value="${member.memberPhone}" class="form-control">
-        <input type="button" value="수정" onclick="updateFn()">
+      <input type="text" name="id" th:value="${member.id}" class="form-control" readonly>
+      <input type="text" name="memberEmail" th:value="${member.memberEmail}"  class="form-control" readonly>
+      <input type="password" name="memberPassword"  id="memberPassword" >
+      <input type="text" name="memberName" th:value="${member.memberName}" class="form-control">
+      <input type="text" name="memberAge" th:value="${member.memberAge}" class="form-control">
+      <input type="text" name="memberPhone" th:value="${member.memberPhone}" class="form-control">
+      <input type="button" value="수정" onclick="updateFn()">
+      <input type="button" value="수정(axios)" onclick="updateAxios()">
     </form>
 </div>
 </body>
 <script th:inline="javascript">
+    const updateAxios = () => {
+        const id = document.getElementsByName("id")[0].value;
+        //elements: 같은 name이 여러개 있을 수 있어서 배열형태로 가져옴
+        const email = document.getElementsByName("memberEmail")[0].value;
+        const password = document.getElementsByName("memberPassword")[0].value;
+        const name = document.getElementsByName("memberName")[0].value;
+        const age = document.getElementsByName("memberAge")[0].value;
+        const phone = document.getElementsByName("memberPhone")[0].value;
+        console.log("id", id);
+        const passwordDB = [[${member.memberPassword}]];
+        if (password == passwordDB) {
+            axios({
+                method: "put",
+                url: "/member/" + id,
+                data: {
+                    id: id,
+                    memberEmail: email,
+                    memberPassword: password,
+                    memberName: name,
+                    memberAge: age,
+                    memberPhone: phone
+                }
+            }).then(res => {
+                console.log("수정 성공");
+                location.href="/member/"+id;
+            }).catch(res => {
+                console.log("수정 실패");
+            })
+        } else {
+            alert("비밀번호가 틀립니다.");
+        }
+    }
     const updateFn = () => {
         const passwordDB = [[${member.memberPassword}]];
         const passwordInput = document.getElementById("memberPassword").value;
